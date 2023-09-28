@@ -2,26 +2,155 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  /* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #013b8d #ebebeb;
+  }
+  
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 25px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: #ebebeb;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #013b8d;
+    border-radius: 5px;
+    border: 3px solid #ffffff;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer utilities {
+
+  .skew-c{
+    background: linear-gradient(to left bottom, #fff 49%, rgb(30 58 138) 50%);
+  }
+
+  .skew-cc{
+    background: linear-gradient(to right bottom, rgb(30 58 138) 49%, #fff 50%), linear-gradient(-50deg, #ffffff 16px, #000 0);
+  }
+  
+  .clip-events{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 100%);
+  }
+  .clip-navbar-submenu{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 4% 100%);
+  }
+  
+  .clip-main-image {
+    clip-path: polygon(100% 0, 100% 70%, 71% 90%, 0 70%, 0 0);
+  }
+
+  .clip-main-image-large{
+    clip-path: polygon(100% 0, 100% 80%, 71% 90%, 0 80%, 0 0);
+  }
+
+  .noclip-main-image {
+    clip-path: polygon(100% 0, 100% 90%, 71% 90%, 0 90%, 0 0);
+  }
+
+  .clip-announcement {
+    clip-path: polygon(0 0, 80% 6%, 80% 94%, 0% 100%);
+  }
+  .post-content p{
+    @apply pb-4 text-lg leading-loose;
+  }
+  .post-content a{
+    @apply underline text-blue-400 hover:text-blue-600;
+  }
+
+  .post-content ul{
+    @apply pb-4 list-disc list-inside text-zinc-800 text-lg;
+  }
+
+  .post-content figure{
+    @apply pb-4;
+  }
+  .post-content figure figcaption{
+    @apply text-center py-2;
+  }
+
+  .post-content h2{
+    @apply text-2xl font-bold py-2 pl-2 mb-2;
+  }
+
+  .post-content h3{
+    @apply text-xl font-bold py-2 pl-2 mb-2;
+  }
+
+  .fig-content *,
+  .fig-content *:before,
+  .fig-content *:after {
+    @apply box-border transition-all duration-[0.45s] ease-[ease];
+  }
+  .fig-content img {
+    @apply max-w-full align-top;
+    backface-visibility: hidden;
+  }
+  .fig-content:before,
+  .fig-content:after {
+    @apply absolute content-[''] bg-[#013b8d] opacity-50 transition-all duration-[0.45s] ease-[ease] inset-0;
+  }
+  .fig-content:before {
+    @apply skew-x-[30deg] translate-x-[80%];
+  }
+  .fig-content:after {
+    @apply skew-x-[-30deg] translate-x-[70%];
+  }
+  .fig-content figcaption {
+    @apply absolute z-[1] pl-[40%] pr-5 py-5 inset-0 text-right before:skew-x-[30deg] before:translate-x-full after:skew-x-[-30deg] after:translate-x-[90%];
+  }
+  .fig-content figcaption:before,
+  .fig-content figcaption:after {
+    @apply absolute bg-[#013b8d] shadow-[0_0_20px_rgba(0,0,0,0.7)] content-[''] opacity-50 z-[-1] inset-0;
+  }
+  .fig-content figcaption:before {
+    -webkit-transform: skew(30deg) translateX(100%);
+  }
+  .fig-content figcaption:after {
+    -webkit-transform: skew(-30deg) translateX(90%);
+  }
+  .fig-content p {
+    @apply opacity-0 tracking-[1px] m-0 text-white;
+  }
+  .fig-content p {
+    @apply text-2xl;
+  }
+
+  .fig-content:hover p
+  {
+    @apply translate-y-0 opacity-90;
+  }
+  .fig-content:hover:before,
+  .fig-content.hover:before {
+    @apply skew-x-[30deg] translate-x-[30%] delay-[0.05s];
+  }
+  .fig-content:hover:after {
+    @apply skew-x-[-30deg] translate-x-[20%];
+  }
+
+  .fig-content:hover figcaption:before {
+    @apply skew-x-[30deg] translate-x-2/4 delay-[0.15s];
+  }
+
+  .fig-content:hover figcaption::after {
+    @apply skew-x-[-30deg] translate-x-[40%] delay-[0.1s];
+  }
 }
+/*---------------------------------------------------SWIPER-----------------*/
+.swiper {
+  margin: 100px 0;
+  height: 600px;
+}
+
+.uam-deepshadow {
+  text-shadow: 0 -1px 0 #fff, 0 1px 0 #2e2e2e, 0 2px 0 #2c2c2c, 0 3px 0 #2a2a2a, 0 4px 0 #282828, 0 5px 0 #262626;
+}
+
+
