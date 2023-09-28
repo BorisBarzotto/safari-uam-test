@@ -1,11 +1,23 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 
 export const NavbarWhite = () => {
 
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [isOpen, setIsOpen] = useState(true)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const containerMenu = useRef(null)
+
+    const handleMenu = () => {
+        setIsMenuOpen(!isMenuOpen)
+
+    }
+    const closeOpenMenus = (e) => {
+        if (containerMenu.current && isMenuOpen && !containerMenu.current.contains(e.target)) {
+            setIsMenuOpen(false)
+        }
+    }
 
     const handleScroll = () => {
         const currentScrollPos = window.scrollY
@@ -21,8 +33,12 @@ export const NavbarWhite = () => {
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
+        document.addEventListener('mousedown', closeOpenMenus)
 
-        return () => window.removeEventListener('scroll', handleScroll)
+        return () => {
+            document.removeEventListener('mousedown', closeOpenMenus)
+            window.removeEventListener('scroll', handleScroll)
+        }
     })
 
     return (
@@ -41,40 +57,43 @@ export const NavbarWhite = () => {
                             href="/#social" scroll={true}>Vínculo con la Sociedad</Link></li>
                     </ul>
                     <div className="text-gray-800 text-center text-lg pr-0 sm:pr-5 hidden lg:inline-flex md:order-9 lg:pl-60"> </div>
-                    <button className="block p-3 mx-10 lg:hidden hover:bg-gray-300 rounded-xl group z-50">
+                    <button className="block p-3 mx-10 lg:hidden hover:bg-gray-300 rounded-xl z-50" onClick={handleMenu}>
                         <div className="w-5 my-[3px] h-[3px] bg-zinc-200 sm:bg-blue-900 mb-[2px]"></div>
                         <div className="w-5 my-[3px] h-[3px] bg-zinc-200 sm:bg-blue-900 mb-[2px]"></div>
                         <div className="w-5 my-[3px] h-[3px] bg-zinc-200 sm:bg-blue-900"></div>
-                        <div
-                            className="absolute top-0 -right-full opacity-0 h-screen w-[60%] border bg-zinc-200 group-focus:right-0 group-focus:opacity-100 transition-all ease-in duration-300 z-50">
-                            <ul className="flex flex-col items-center text-[18px] pt-[60px]">
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/">Inicio</Link>
-                                </li>
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/uam">UAM</Link></li>
-                                    <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/autoridades">Autoridades</Link></li>
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/pregrado">Pregrado</Link></li>
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/postgrado">Postgrado</Link>
-                                </li>
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/noticias">Noticias</Link>
-                                </li>
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/eventos">Eventos</Link>
-                                </li>
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <Link href="/investigacion">Investigación</Link>
-                                </li>
-                                <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
-                                    <a href="https://uam.terna.net/" target="_blank" rel="noopener noreferrer">TernaNet</a>
-                                </li>
-                            </ul>
-                        </div>
                     </button>
+                </div>
+                <div ref={containerMenu}
+                    className={`absolute top-0 ${isMenuOpen ? 'right-0 opacity-100' : '-right-full opacity-0'}  h-screen w-[60%] border bg-zinc-200 transition-all ease-in duration-300 z-50`}>
+                    <svg onClick={handleMenu} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg absolute right-7 top-4" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                    </svg>
+                    <ul className="flex flex-col items-center text-[18px] pt-[60px]">
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/">Inicio</Link>
+                        </li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/uam">UAM</Link></li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/autoridades">Autoridades</Link></li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/pregrado">Pregrado</Link></li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/postgrado">Postgrado</Link>
+                        </li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/noticias">Noticias</Link>
+                        </li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/eventos">Eventos</Link>
+                        </li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <Link href="/investigacion">Investigación</Link>
+                        </li>
+                        <li className="hover:bg-gray-200 hover:border border-white py-4 px-6 w-full">
+                            <a href="https://uam.terna.net/" target="_blank" rel="noopener noreferrer">TernaNet</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div className={`clip-navbar-submenu hidden lg:block shadow-inner w-1/2 bg-slate-200 hover:bg-slate-800 group self-end py-1 ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-translate ease-in-out duration-500`}>
@@ -92,7 +111,7 @@ export const NavbarWhite = () => {
                         <Link href="/postgrado">Postgrado</Link>
                     </li>
                     <li>
-                    <a href="https://uam.terna.net/" target="_blank" rel="noopener noreferrer">TernaNet</a>
+                        <a href="https://uam.terna.net/" target="_blank" rel="noopener noreferrer">TernaNet</a>
                     </li>
                 </ul>
             </div>
